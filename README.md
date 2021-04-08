@@ -6,8 +6,8 @@
 [![Documentation](https://img.shields.io/badge/go.dev-reference-007d9c)](https://pkg.go.dev/github.com/dogmatiq/dosh)
 [![Go Report Card](https://goreportcard.com/badge/github.com/dogmatiq/dosh)](https://goreportcard.com/report/github.com/dogmatiq/dosh)
 
-Dosh is a set of Go utilities for representing monetary values both in-process
-and on-the-wire.
+Dosh is a Go library for representing and manipulating monetary values both
+in-process and on-the-wire.
 
-It adds currency awareness to the well-proven
+It adds "currency awareness" to the well-proven
 [github.com/shopspring/decimal](https://github.com/shopspring/decimal) package.
