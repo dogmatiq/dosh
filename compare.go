@@ -1,0 +1,135 @@
+package dosh
+
+// IsZero returns true if the amount has a magnitude of zero.
+func (a Amount) IsZero() bool {
+	return a.magnitude.IsZero()
+}
+
+// IsNegative returns true if the amount has a negative magnitude.
+func (a Amount) IsNegative() bool {
+	return a.magnitude.IsNegative()
+}
+
+// IsPositive returns true if the amount has a positive magnitude.
+func (a Amount) IsPositive() bool {
+	return a.magnitude.IsPositive()
+}
+
+// Cmp compares a to b and returns a C-style comparison result.
+//
+// It panics if a and b do not use the same currency.
+//
+// If a < b then c is negative.
+// If a > b then c is positive.
+// Otherwise; a == b and c is zero.
+func (a Amount) Cmp(b Amount) (c int) {
+	assertSameCurrency(a, b)
+	return a.magnitude.Cmp(b.magnitude)
+}
+
+// Equal returns true if a and b have the same magnitude.
+//
+// It panics if a and b do not use the same currency.
+//
+// To check equality between to amounts that may have differing currencies, use
+// Identical() instead.
+func (a Amount) Equal(b Amount) bool {
+	assertSameCurrency(a, b)
+	return a.magnitude.Equal(b.magnitude)
+}
+
+// Identical returns true if a and b use the same currency and have the same
+// magnitude.
+//
+// For general comparisons that are expected to be in the same currency, use
+// Equal() instead.
+func (a Amount) Identical(b Amount) bool {
+	if a.CurrencyCode() != b.CurrencyCode() {
+		return false
+	}
+
+	return a.magnitude.Equal(b.magnitude)
+}
+
+// LessThan returns true if a < b.
+//
+// It panics if a and b do not use the same currency.
+func (a Amount) LessThan(b Amount) bool {
+	assertSameCurrency(a, b)
+	return a.magnitude.LessThan(b.magnitude)
+}
+
+// LessThanOrEqual returns true if a <= b.
+//
+// It panics if a and b do not use the same currency.
+func (a Amount) LessThanOrEqual(b Amount) bool {
+	assertSameCurrency(a, b)
+	return a.magnitude.LessThanOrEqual(b.magnitude)
+}
+
+// GreaterThan returns true if a > b.
+//
+// It panics if a and b do not use the same currency.
+func (a Amount) GreaterThan(b Amount) bool {
+	assertSameCurrency(a, b)
+	return a.magnitude.GreaterThan(b.magnitude)
+}
+
+// GreaterThanOrEqual returns true if a >= b.
+//
+// It panics if a and b do not use the same currency.
+func (a Amount) GreaterThanOrEqual(b Amount) bool {
+	assertSameCurrency(a, b)
+	return a.magnitude.GreaterThanOrEqual(b.magnitude)
+}
+
+// LexicallyLessThan returns true if a should appear before b in a sorted list.
+//
+// There is no requirement that a and b use the same currency.
+func (a Amount) LexicallyLessThan(b Amount) bool {
+	if a.CurrencyCode() == b.CurrencyCode() {
+		return a.magnitude.LessThan(b.magnitude)
+	}
+
+	return a.CurrencyCode() < b.CurrencyCode()
+}
+
+// Min returns the smallest of the given amounts.
+//
+// It panics if amounts is empty, or if the amounts do not use the same
+// currency.
+func Min(amounts ...Amount) Amount {
+	if len(amounts) == 0 {
+		panic("at least one amount must be provided")
+	}
+
+	a := amounts[0]
+	for _, b := range amounts[1:] {
+		assertSameCurrency(a, b)
+		if b.LessThan(a) {
+			a = b
+		}
+	}
+
+	return a
+}
+
+// Max returns the largest of the given amounts.
+//
+// It panics if amounts is empty, or if the amounts do not use the same
+// currency.
+func Max(amounts ...Amount) Amount {
+	if len(amounts) == 0 {
+		panic("at least one amount must be provided")
+	}
+
+	a := amounts[0]
+	for _, b := range amounts[1:] {
+		assertSameCurrency(a, b)
+		if b.GreaterThan(a) {
+			a = b
+		}
+	}
+
+	return a
+}
