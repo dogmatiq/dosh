@@ -9,5 +9,5 @@
 Dosh is a Go library for representing and manipulating monetary values both
 in-process and on-the-wire.
 
-It adds "currency awareness" to the well-proven
+It adds "currency awareness" to the
 [github.com/shopspring/decimal](https://github.com/shopspring/decimal) package.
