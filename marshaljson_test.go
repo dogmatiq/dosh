@@ -72,12 +72,12 @@ var _ = Describe("type Amount (JSON marshaling)", func() {
 			),
 			Entry(
 				"units positive, nanos negative",
-				`{"currency_code": "XYZ", "units": 1, "nanos": -1}`,
+				`{"currency_code": "XYZ", "units": "1", "nanos": -1}`,
 				"cannot unmarshal amount from JSON representation: units and nanos components must have the same sign",
 			),
 			Entry(
 				"units negative, nanos positive",
-				`{"currency_code": "XYZ", "units": -1, "nanos": 1}`,
+				`{"currency_code": "XYZ", "units": "-1", "nanos": 1}`,
 				"cannot unmarshal amount from JSON representation: units and nanos components must have the same sign",
 			),
 		)
