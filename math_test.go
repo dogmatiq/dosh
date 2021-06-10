@@ -95,6 +95,12 @@ var _ = Describe("type Amount (math methods)", func() {
 				a.Div(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
+
+		It("panics when dividing by zero", func() {
+			Expect(func() {
+				Amount{}.Div(Amount{})
+			}).To(PanicWith("decimal division by 0"))
+		})
 	})
 
 	Describe("func DivScalar()", func() {
@@ -103,6 +109,12 @@ var _ = Describe("type Amount (math methods)", func() {
 			b := decimal.RequireFromString("0.5")
 			x := MustParse("XYZ", "2.46")
 			Expect(a.DivScalar(b).Equal(x)).To(BeTrue())
+		})
+
+		It("panics when dividing by zero", func() {
+			Expect(func() {
+				Amount{}.DivScalar(decimal.Decimal{})
+			}).To(PanicWith("decimal division by 0"))
 		})
 	})
 
@@ -121,6 +133,12 @@ var _ = Describe("type Amount (math methods)", func() {
 				a.Mod(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
+
+		It("panics when dividing by zero", func() {
+			Expect(func() {
+				Amount{}.Mod(Amount{})
+			}).To(PanicWith("decimal division by 0"))
+		})
 	})
 
 	Describe("func ModScalar()", func() {
@@ -129,6 +147,12 @@ var _ = Describe("type Amount (math methods)", func() {
 			b := decimal.RequireFromString("0.5")
 			x := MustParse("XYZ", "0.23")
 			Expect(a.ModScalar(b).Equal(x)).To(BeTrue())
+		})
+
+		It("panics when dividing by zero", func() {
+			Expect(func() {
+				Amount{}.ModScalar(decimal.Decimal{})
+			}).To(PanicWith("decimal division by 0"))
 		})
 	})
 })
