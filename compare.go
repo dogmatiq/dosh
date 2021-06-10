@@ -31,7 +31,7 @@ func (a Amount) Cmp(b Amount) (c int) {
 //
 // It panics if a and b do not use the same currency.
 //
-// To check equality between to amounts that may have differing currencies, use
+// To check equality between two amounts that may have differing currencies, use
 // Identical() instead.
 func (a Amount) Equal(b Amount) bool {
 	assertSameCurrency(a, b)

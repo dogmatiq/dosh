@@ -54,7 +54,7 @@ var _ = Describe("type Amount (comparison functions)", func() {
 
 	Describe("func IsNegative()", func() {
 		DescribeTable(
-			"returns true if the amount has a positive magnitude",
+			"returns true if the amount has a negative magnitude",
 			func(dec string, expect bool) {
 				Expect(MustParse("XYZ", dec).IsNegative()).To(Equal(expect))
 			},
