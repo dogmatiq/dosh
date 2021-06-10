@@ -22,7 +22,7 @@ var _ = Describe("type Amount (binary marshaling)", func() {
 			err = b.UnmarshalBinary(data)
 			Expect(err).ShouldNot(HaveOccurred())
 
-			Expect(a.Equal(b)).To(BeTrue())
+			Expect(a.EqualTo(b)).To(BeTrue())
 		})
 	})
 

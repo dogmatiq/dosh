@@ -13,7 +13,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 			"returns an amount with the magnitude rounded down to the nearest integer",
 			func(a, expect string) {
 				Expect(
-					MustParse("XYZ", a).Floor().Equal(
+					MustParse("XYZ", a).Floor().EqualTo(
 						MustParse("XYZ", expect),
 					),
 				).To(BeTrue())
@@ -29,7 +29,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 			"returns an amount with the magnitude rounded up to the nearest integer",
 			func(a, expect string) {
 				Expect(
-					MustParse("XYZ", a).Ceil().Equal(
+					MustParse("XYZ", a).Ceil().EqualTo(
 						MustParse("XYZ", expect),
 					),
 				).To(BeTrue())
@@ -45,7 +45,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 			"returns an amount with the magnitude truncated to the given number of decimal places",
 			func(a, expect string) {
 				Expect(
-					MustParse("XYZ", a).Truncate(1).Equal(
+					MustParse("XYZ", a).Truncate(1).EqualTo(
 						MustParse("XYZ", expect),
 					),
 				).To(BeTrue())
@@ -61,7 +61,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 			"returns an amount with the magnitude rounded to the given number of decimal places",
 			func(a, expect string) {
 				Expect(
-					MustParse("XYZ", a).Round(1).Equal(
+					MustParse("XYZ", a).Round(1).EqualTo(
 						MustParse("XYZ", expect),
 					),
 				).To(BeTrue())
@@ -79,7 +79,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 			"returns an amount with the magnitude rounded to the given number of integer places when n is negative",
 			func(a, expect string) {
 				Expect(
-					MustParse("XYZ", a).Round(-1).Equal(
+					MustParse("XYZ", a).Round(-1).EqualTo(
 						MustParse("XYZ", expect),
 					),
 				).To(BeTrue())
@@ -99,7 +99,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 			"returns an amount with the magnitude rounded to the given number of decimal places",
 			func(a, expect string) {
 				Expect(
-					MustParse("XYZ", a).RoundBank(1).Equal(
+					MustParse("XYZ", a).RoundBank(1).EqualTo(
 						MustParse("XYZ", expect),
 					),
 				).To(BeTrue())
@@ -119,7 +119,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 			"returns an amount with the magnitude rounded to the given number of integer places when n is negative",
 			func(a, expect string) {
 				Expect(
-					MustParse("XYZ", a).RoundBank(-1).Equal(
+					MustParse("XYZ", a).RoundBank(-1).EqualTo(
 						MustParse("XYZ", expect),
 					),
 				).To(BeTrue())

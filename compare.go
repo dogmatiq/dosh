@@ -27,13 +27,13 @@ func (a Amount) Cmp(b Amount) (c int) {
 	return a.mag.Cmp(b.mag)
 }
 
-// Equal returns true if a and b have the same magnitude.
+// EqualTo returns true if a and b have the same magnitude.
 //
 // It panics if a and b do not use the same currency.
 //
 // To check equality between two amounts that may have differing currencies, use
-// Identical() instead.
-func (a Amount) Equal(b Amount) bool {
+// IdenticalTo() instead.
+func (a Amount) EqualTo(b Amount) bool {
 	assertSameCurrency(a, b)
 	return a.mag.Equal(b.mag)
 }
@@ -42,8 +42,8 @@ func (a Amount) Equal(b Amount) bool {
 // magnitude.
 //
 // For general comparisons that are expected to be in the same currency, use
-// Equal() instead.
-func (a Amount) Identical(b Amount) bool {
+// EqualTo() instead.
+func (a Amount) IdenticalTo(b Amount) bool {
 	if a.CurrencyCode() != b.CurrencyCode() {
 		return false
 	}
@@ -62,7 +62,7 @@ func (a Amount) LessThan(b Amount) bool {
 // LessThanOrEqual returns true if a <= b.
 //
 // It panics if a and b do not use the same currency.
-func (a Amount) LessThanOrEqual(b Amount) bool {
+func (a Amount) LessThanOrEqualTo(b Amount) bool {
 	assertSameCurrency(a, b)
 	return a.mag.LessThanOrEqual(b.mag)
 }
@@ -78,7 +78,7 @@ func (a Amount) GreaterThan(b Amount) bool {
 // GreaterThanOrEqual returns true if a >= b.
 //
 // It panics if a and b do not use the same currency.
-func (a Amount) GreaterThanOrEqual(b Amount) bool {
+func (a Amount) GreaterThanOrEqualTo(b Amount) bool {
 	assertSameCurrency(a, b)
 	return a.mag.GreaterThanOrEqual(b.mag)
 }

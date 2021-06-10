@@ -15,7 +15,7 @@ var _ = Describe("type Amount (math methods)", func() {
 			func(dec string, expect string) {
 				a := MustParse("XYZ", dec).Abs()
 				x := MustParse("XYZ", expect)
-				Expect(a.Equal(x)).To(BeTrue())
+				Expect(a.EqualTo(x)).To(BeTrue())
 			},
 			Entry("zero", "0", "0"),
 			Entry("positive", "1.23", "1.23"),
@@ -29,7 +29,7 @@ var _ = Describe("type Amount (math methods)", func() {
 			func(dec string, expect string) {
 				a := MustParse("XYZ", dec).Neg()
 				x := MustParse("XYZ", expect)
-				Expect(a.Equal(x)).To(BeTrue())
+				Expect(a.EqualTo(x)).To(BeTrue())
 			},
 			Entry("zero", "0", "0"),
 			Entry("positive", "1.23", "-1.23"),
@@ -42,7 +42,7 @@ var _ = Describe("type Amount (math methods)", func() {
 			a := MustParse("XYZ", "1.23")
 			b := MustParse("XYZ", "3.45")
 			x := MustParse("XYZ", "4.68")
-			Expect(a.Add(b).Equal(x)).To(BeTrue())
+			Expect(a.Add(b).EqualTo(x)).To(BeTrue())
 		})
 
 		It("panics if the amounts do not have the same currency", func() {
@@ -59,7 +59,7 @@ var _ = Describe("type Amount (math methods)", func() {
 			a := MustParse("XYZ", "1.23")
 			b := MustParse("XYZ", "3.45")
 			x := MustParse("XYZ", "-2.22")
-			Expect(a.Sub(b).Equal(x)).To(BeTrue())
+			Expect(a.Sub(b).EqualTo(x)).To(BeTrue())
 		})
 
 		It("panics if the amounts do not have the same currency", func() {
@@ -76,7 +76,7 @@ var _ = Describe("type Amount (math methods)", func() {
 			a := MustParse("XYZ", "1.23")
 			b := decimal.RequireFromString("3.45")
 			x := MustParse("XYZ", "4.2435")
-			Expect(a.MulScalar(b).Equal(x)).To(BeTrue())
+			Expect(a.MulScalar(b).EqualTo(x)).To(BeTrue())
 		})
 	})
 
@@ -108,7 +108,7 @@ var _ = Describe("type Amount (math methods)", func() {
 			a := MustParse("XYZ", "1.23")
 			b := decimal.RequireFromString("0.5")
 			x := MustParse("XYZ", "2.46")
-			Expect(a.DivScalar(b).Equal(x)).To(BeTrue())
+			Expect(a.DivScalar(b).EqualTo(x)).To(BeTrue())
 		})
 
 		It("panics when dividing by zero", func() {
@@ -146,7 +146,7 @@ var _ = Describe("type Amount (math methods)", func() {
 			a := MustParse("XYZ", "1.23")
 			b := decimal.RequireFromString("0.5")
 			x := MustParse("XYZ", "0.23")
-			Expect(a.ModScalar(b).Equal(x)).To(BeTrue())
+			Expect(a.ModScalar(b).EqualTo(x)).To(BeTrue())
 		})
 
 		It("panics when dividing by zero", func() {
@@ -164,7 +164,7 @@ var _ = Describe("func Sum()", func() {
 				MustParse("XYZ", "1"),
 				MustParse("XYZ", "2"),
 				MustParse("XYZ", "3"),
-			).Equal(
+			).EqualTo(
 				MustParse("XYZ", "6"),
 			),
 		).To(BeTrue())
@@ -193,7 +193,7 @@ var _ = Describe("func Avg()", func() {
 				MustParse("XYZ", "1"),
 				MustParse("XYZ", "2"),
 				MustParse("XYZ", "3"),
-			).Equal(
+			).EqualTo(
 				MustParse("XYZ", "2"),
 			),
 		).To(BeTrue())
