@@ -39,9 +39,9 @@ var _ = Describe("type Amount (text marshaling)", func() {
 				err := a.UnmarshalText([]byte(data))
 				Expect(err).To(MatchError(expect))
 			},
-			Entry("empty", "", "cannot unmarshal amount from text representation: data must have current and magnitude components"),
-			Entry("empty currency", " 1.23", "cannot unmarshal amount from text representation: data must have current and magnitude components"),
-			Entry("empty magnitude", "XYZ ", "cannot unmarshal amount from text representation: data must have current and magnitude components"),
+			Entry("empty", "", "cannot unmarshal amount from text representation: data must have currency and magnitude components"),
+			Entry("empty currency", " 1.23", "cannot unmarshal amount from text representation: data must have currency and magnitude components"),
+			Entry("empty magnitude", "XYZ ", "cannot unmarshal amount from text representation: data must have currency and magnitude components"),
 			Entry("invalid magnitude", "XYZ <invalid>", "cannot unmarshal amount from text representation: can't convert <invalid> to decimal"),
 		)
 	})

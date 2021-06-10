@@ -13,7 +13,7 @@ func (a Amount) MarshalText() (text []byte, err error) {
 	return []byte(a.String()), nil
 }
 
-// UnmarshalText unmarshals an amount from its protocol buffers representation.
+// UnmarshalText unmarshals an amount from its text representation.
 //
 // NOTE: In order to comply with Go's encoding.TextUnmarshaler interface, this
 // method mutates the internals of a, violating Amount's immutability guarantee.
@@ -22,7 +22,7 @@ func (a *Amount) UnmarshalText(text []byte) error {
 	parts := strings.SplitN(str, " ", 2)
 
 	if len(parts) != 2 {
-		return errors.New("cannot unmarshal amount from text representation: data must have current and magnitude components")
+		return errors.New("cannot unmarshal amount from text representation: data must have currency and magnitude components")
 	}
 
 	m, err := decimal.NewFromString(parts[1])
