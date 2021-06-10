@@ -58,12 +58,18 @@ var _ = Describe("type Amount (JSON marshaling)", func() {
 			func(data string, expect string) {
 				var a Amount
 				err := a.UnmarshalJSON([]byte(data))
-				Expect(err).To(MatchError(expect))
+				Expect(err).Should(HaveOccurred())
+				Expect(err.Error()).To(MatchRegexp(expect))
 			},
 			Entry(
 				"malformed JSON",
 				`<invalid>`,
-				"cannot unmarshal amount from JSON representation: proto:\u00a0syntax error (line 1:1): invalid value <",
+				// Note, protocol buffers package randomly emits different
+				// output to avoid code that checks errors by string value,
+				// which is fair enough but makes simple tests like this
+				// incredibly frustrating. This is the reason for the use of
+				// regular expressions.
+				"cannot unmarshal amount from JSON representation: proto:.+syntax error",
 			),
 			Entry(
 				"empty currency",
