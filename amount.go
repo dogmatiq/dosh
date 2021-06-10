@@ -27,7 +27,10 @@ type Amount struct {
 	// expressed in.
 	//
 	// An empty string is equivalent to "USD".
-	cur string
+	//
+	// A byte slice is used instead of a string to prevent comparison of Amount
+	// values using the built-in equality operator.
+	cur []byte
 
 	// mag is the monetary amount, expressed in whatever currency is specified
 	// by the currency field.
@@ -47,7 +50,7 @@ func New(c string, m decimal.Decimal) Amount {
 	}
 
 	return Amount{
-		strings.ToUpper(c),
+		[]byte(strings.ToUpper(c)),
 		m,
 	}
 }
@@ -119,11 +122,11 @@ func MustParse(c, m string) Amount {
 //
 // The returned currency code is always uppercase.
 func (a Amount) CurrencyCode() string {
-	if a.cur == "" {
+	if len(a.cur) == 0 {
 		return "USD"
 	}
 
-	return a.cur
+	return string(a.cur)
 }
 
 // Magnitude returns the decimal value of the amount without currency
