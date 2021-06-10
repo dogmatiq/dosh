@@ -4,7 +4,8 @@ import "github.com/shopspring/decimal"
 
 // Abs returns the absolute value of this amount.
 //
-// That is, if a < 0 it returns -a. Otherwise it returns a unchanged.
+// That is, if a is negative, it returns its inverse (a positive magnitude),
+// otherwise it returns a unchanged.
 func (a Amount) Abs() Amount {
 	a.mag = a.mag.Abs()
 	return a
