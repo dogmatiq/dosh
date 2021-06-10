@@ -38,7 +38,7 @@ var _ = Describe("type Amount (protocol buffers marshaling)", func() {
 				"cannot marshal amount to protocol buffers representation: magnitude's integer component overflows int64",
 			),
 			Entry(
-				"fractional component of the magnitude requires more precision that available",
+				"fractional component of the magnitude requires more precision than available",
 				MustParse("xyz", "0.0123456789"),
 				"cannot marshal amount to protocol buffers representation: magnitude's fractional component has too many decimal places",
 			),
