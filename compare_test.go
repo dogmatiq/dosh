@@ -70,12 +70,15 @@ var _ = Describe("type Amount (comparison functions)", func() {
 			func(a, b string, expect int) {
 				l := MustParse("XYZ", a)
 				r := MustParse("XYZ", b)
-				c := l.Cmp(r)
+				x := l.Cmp(r)
+				y := r.Cmp(l)
 
 				if expect == 0 {
-					Expect(c).To(BeZero())
+					Expect(x).To(BeZero())
+					Expect(y).To(BeZero())
 				} else {
-					Expect(c < 0).To(Equal(expect < 0))
+					Expect(x < 0).To(Equal(expect < 0))
+					Expect(y < 0).To(Equal(expect > 0))
 				}
 			},
 			vectors...,
@@ -97,6 +100,7 @@ var _ = Describe("type Amount (comparison functions)", func() {
 				l := MustParse("XYZ", a)
 				r := MustParse("XYZ", b)
 				Expect(l.Equal(r)).To(Equal(expect == 0))
+				Expect(r.Equal(l)).To(Equal(expect == 0))
 			},
 			vectors...,
 		)
@@ -117,6 +121,7 @@ var _ = Describe("type Amount (comparison functions)", func() {
 				l := MustParse("XYZ", a)
 				r := MustParse("XYZ", b)
 				Expect(l.Identical(r)).To(Equal(expect == 0))
+				Expect(r.Identical(l)).To(Equal(expect == 0))
 			},
 			vectors...,
 		)
@@ -134,8 +139,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 			func(a, b string, expect int) {
 				l := MustParse("XYZ", a)
 				r := MustParse("XYZ", b)
-
 				Expect(l.LessThan(r)).To(Equal(expect < 0))
+				Expect(r.LessThan(l)).To(Equal(expect > 0))
 			},
 			vectors...,
 		)
@@ -155,8 +160,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 			func(a, b string, expect int) {
 				l := MustParse("XYZ", a)
 				r := MustParse("XYZ", b)
-
 				Expect(l.LessThanOrEqual(r)).To(Equal(expect <= 0))
+				Expect(r.LessThanOrEqual(l)).To(Equal(expect >= 0))
 			},
 			vectors...,
 		)
@@ -176,8 +181,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 			func(a, b string, expect int) {
 				l := MustParse("XYZ", a)
 				r := MustParse("XYZ", b)
-
 				Expect(l.GreaterThan(r)).To(Equal(expect > 0))
+				Expect(r.GreaterThan(l)).To(Equal(expect < 0))
 			},
 			vectors...,
 		)
@@ -197,8 +202,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 			func(a, b string, expect int) {
 				l := MustParse("XYZ", a)
 				r := MustParse("XYZ", b)
-
 				Expect(l.GreaterThanOrEqual(r)).To(Equal(expect >= 0))
+				Expect(r.GreaterThanOrEqual(l)).To(Equal(expect <= 0))
 			},
 			vectors...,
 		)
