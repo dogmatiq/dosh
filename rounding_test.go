@@ -10,7 +10,7 @@ import (
 var _ = Describe("type Amount (rounding methods)", func() {
 	Describe("func Floor()", func() {
 		DescribeTable(
-			"returns an amount with the magnitude rounded down to the nearest integer",
+			"it returns an amount with the magnitude rounded down to the nearest integer",
 			func(a, expect string) {
 				Expect(
 					MustParse("XYZ", a).Floor().EqualTo(
@@ -26,7 +26,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 
 	Describe("func Ceil()", func() {
 		DescribeTable(
-			"returns an amount with the magnitude rounded up to the nearest integer",
+			"it returns an amount with the magnitude rounded up to the nearest integer",
 			func(a, expect string) {
 				Expect(
 					MustParse("XYZ", a).Ceil().EqualTo(
@@ -42,7 +42,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 
 	Describe("func Truncate()", func() {
 		DescribeTable(
-			"returns an amount with the magnitude truncated to the given number of decimal places",
+			"it returns an amount with the magnitude truncated to the given number of decimal places",
 			func(a, expect string) {
 				Expect(
 					MustParse("XYZ", a).Truncate(1).EqualTo(
@@ -58,7 +58,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 
 	Describe("func Round()", func() {
 		DescribeTable(
-			"returns an amount with the magnitude rounded to the given number of decimal places",
+			"it returns an amount with the magnitude rounded to the given number of decimal places",
 			func(a, expect string) {
 				Expect(
 					MustParse("XYZ", a).Round(1).EqualTo(
@@ -76,7 +76,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 		)
 
 		DescribeTable(
-			"returns an amount with the magnitude rounded to the given number of integer places when n is negative",
+			"it returns an amount with the magnitude rounded to the given number of integer places when n is negative",
 			func(a, expect string) {
 				Expect(
 					MustParse("XYZ", a).Round(-1).EqualTo(
@@ -96,7 +96,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 
 	Describe("func RoundBank()", func() {
 		DescribeTable(
-			"returns an amount with the magnitude rounded to the given number of decimal places",
+			"it returns an amount with the magnitude rounded to the given number of decimal places",
 			func(a, expect string) {
 				Expect(
 					MustParse("XYZ", a).RoundBank(1).EqualTo(
@@ -116,7 +116,7 @@ var _ = Describe("type Amount (rounding methods)", func() {
 		)
 
 		DescribeTable(
-			"returns an amount with the magnitude rounded to the given number of integer places when n is negative",
+			"it returns an amount with the magnitude rounded to the given number of integer places when n is negative",
 			func(a, expect string) {
 				Expect(
 					MustParse("XYZ", a).RoundBank(-1).EqualTo(

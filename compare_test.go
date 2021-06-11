@@ -12,7 +12,7 @@ import (
 var _ = Describe("type Amount (comparison functions)", func() {
 	Describe("func IsZero()", func() {
 		DescribeTable(
-			"returns true if the amount has a magnitude of zero",
+			"it returns true if the amount has a magnitude of zero",
 			func(dec string, expect bool) {
 				Expect(MustParse("XYZ", dec).IsZero()).To(Equal(expect))
 			},
@@ -24,7 +24,7 @@ var _ = Describe("type Amount (comparison functions)", func() {
 
 	Describe("func IsPositive()", func() {
 		DescribeTable(
-			"returns true if the amount has a positive magnitude",
+			"it returns true if the amount has a positive magnitude",
 			func(dec string, expect bool) {
 				Expect(MustParse("XYZ", dec).IsPositive()).To(Equal(expect))
 			},
@@ -36,7 +36,7 @@ var _ = Describe("type Amount (comparison functions)", func() {
 
 	Describe("func IsNegative()", func() {
 		DescribeTable(
-			"returns true if the amount has a negative magnitude",
+			"it returns true if the amount has a negative magnitude",
 			func(dec string, expect bool) {
 				Expect(MustParse("XYZ", dec).IsNegative()).To(Equal(expect))
 			},

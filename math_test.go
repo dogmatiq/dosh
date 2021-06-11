@@ -11,7 +11,7 @@ import (
 var _ = Describe("type Amount (math methods)", func() {
 	Describe("func Abs()", func() {
 		DescribeTable(
-			"returns an amount with the absolute magnitude",
+			"it returns an amount with the absolute magnitude",
 			func(dec string, expect string) {
 				a := MustParse("XYZ", dec).Abs()
 				x := MustParse("XYZ", expect)
@@ -25,7 +25,7 @@ var _ = Describe("type Amount (math methods)", func() {
 
 	Describe("func Neg()", func() {
 		DescribeTable(
-			"returns an amount with the inverse magnitude",
+			"it returns an amount with the inverse magnitude",
 			func(dec string, expect string) {
 				a := MustParse("XYZ", dec).Neg()
 				x := MustParse("XYZ", expect)

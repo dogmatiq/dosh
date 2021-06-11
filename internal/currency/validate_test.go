@@ -9,7 +9,7 @@ import (
 
 var _ = Describe("func ValidateCode()", func() {
 	DescribeTable(
-		"returns nil if the currency code is valid",
+		"it returns nil if the currency code is valid",
 		func(c string) {
 			err := ValidateCode(c)
 			Expect(err).ShouldNot(HaveOccurred())
@@ -21,7 +21,7 @@ var _ = Describe("func ValidateCode()", func() {
 	)
 
 	DescribeTable(
-		"returns an error if the currency code is invalid",
+		"it returns an error if the currency code is invalid",
 		func(c, expect string) {
 			err := ValidateCode(c)
 			Expect(err).To(MatchError(expect))
