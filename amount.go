@@ -2,8 +2,8 @@ package dosh
 
 import (
 	"fmt"
-	"strings"
 
+	"github.com/dogmatiq/dosh/internal/currency"
 	"github.com/shopspring/decimal"
 )
 
@@ -38,45 +38,49 @@ type Amount struct {
 
 // New returns an Amount with a specific currency and magnitude.
 //
-// c is the currency code that identifies the currency. It SHOULD be an ISO-4217
-// 3-letter code if the currency is defined by ISO-4217. Non-standard currency
-// codes SHOULD begin with an "X". All values are converted to uppercase.
+// c is the currency code that identifies the currency. It must consist only of
+// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
+// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
+// begin with an "X".
 //
 // m is the magnitude of the amount, expressed in the currency specified by c.
 func New(c string, m decimal.Decimal) Amount {
-	if c == "" {
-		panic("currency code must not be empty")
+	if err := currency.ValidateCode(c); err != nil {
+		panic(err)
 	}
 
 	return Amount{
-		cur: strings.ToUpper(c),
+		cur: c,
 		mag: m,
 	}
 }
 
 // Zero returns an Amount with a magnitude of 0 (zero) in a specific currency.
 //
-// c is the currency code that identifies the currency. It SHOULD be an ISO-4217
-// 3-letter code if the currency is defined by ISO-4217. Non-standard currency
-// codes SHOULD begin with an "X". All values are converted to uppercase.
+// c is the currency code that identifies the currency. It must consist only of
+// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
+// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
+// begin with an "X".
 func Zero(c string) Amount {
 	return New(c, zero)
 }
 
 // Unit returns an Amount with a magnitude of 1 (one) in a specific currency.
 //
-// c is the currency code that identifies the currency. It SHOULD be an ISO-4217
-// 3-letter code if the currency is defined by ISO-4217. Non-standard currency
-// codes SHOULD begin with an "X". All values are converted to uppercase.
+// c is the currency code that identifies the currency. It must consist only of
+// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
+// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
+// begin with an "X".
 func Unit(c string) Amount {
 	return New(c, unit)
 }
 
 // Int returns an Amount with an integer magnitude in a specific currency.
 //
-// c is the currency code that identifies the currency. It SHOULD be an ISO-4217
-// 3-letter code if the currency is defined by ISO-4217. Non-standard currency
-// codes SHOULD begin with an "X". All values are converted to uppercase.
+// c is the currency code that identifies the currency. It must consist only of
+// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
+// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
+// begin with an "X".
 //
 // m is the magnitude of the amount, expressed in the currency specified by c.
 func Int(c string, m int) Amount {
@@ -85,9 +89,10 @@ func Int(c string, m int) Amount {
 
 // Parse returns a new Amount with a magnitude parsed from a decimal string.
 //
-// c is the currency code that identifies the currency. It SHOULD be an ISO-4217
-// 3-letter code if the currency is defined by ISO-4217. Non-standard currency
-// codes SHOULD begin with an "X". All values are converted to uppercase.
+// c is the currency code that identifies the currency. It must consist only of
+// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
+// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
+// begin with an "X".
 //
 // m is the string representation of an integer or decimal number, expressed in
 // the currency specified by c.
@@ -103,9 +108,10 @@ func Parse(c, m string) (Amount, error) {
 // MustParse returns a new Amount with a magnitude parsed from a decimal string
 // or panics if unable to do so.
 //
-// c is the currency code that identifies the currency. It SHOULD be an ISO-4217
-// 3-letter code if the currency is defined by ISO-4217. Non-standard currency
-// codes SHOULD begin with an "X". All values are converted to uppercase.
+// c is the currency code that identifies the currency. It must consist only of
+// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
+// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
+// begin with an "X".
 //
 // m is the string representation of an integer or decimal number, expressed in
 // the currency specified by c.
@@ -118,8 +124,6 @@ func MustParse(c, m string) Amount {
 
 // CurrencyCode returns the currency code for the currency in which the amount
 // is specified.
-//
-// The returned currency code is always uppercase.
 func (a Amount) CurrencyCode() string {
 	if len(a.cur) == 0 {
 		return "USD"

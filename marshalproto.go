@@ -3,8 +3,8 @@ package dosh
 import (
 	"errors"
 	"fmt"
-	"strings"
 
+	"github.com/dogmatiq/dosh/internal/currency"
 	"github.com/shopspring/decimal"
 	"google.golang.org/genproto/googleapis/type/money"
 )
@@ -66,9 +66,9 @@ func (a Amount) marshalProto() (*money.Money, error) {
 // without providing any protocol-buffer-specific error information, allowing it
 // to be used by both UnmarshalJSON() and UnmarshalProto().
 func (a *Amount) unmarshalProto(pb *money.Money) error {
-	c := strings.TrimSpace(pb.GetCurrencyCode())
-	if c == "" {
-		return errors.New("currency code must not be empty")
+	c := pb.GetCurrencyCode()
+	if err := currency.ValidateCode(c); err != nil {
+		return err
 	}
 
 	units := pb.GetUnits()
@@ -82,10 +82,12 @@ func (a *Amount) unmarshalProto(pb *money.Money) error {
 	units += int64(nanos) / nanosPerUnit.IntPart()
 	nanos %= nanosPerUnit.IntPart()
 
-	a.cur = strings.ToUpper(c)
-	a.mag = decimal.NewFromInt(units).Add(
+	m := decimal.NewFromInt(units).Add(
 		decimal.NewFromInt(nanos).Div(nanosPerUnit),
 	)
+
+	a.cur = c
+	a.mag = m
 
 	return nil
 }

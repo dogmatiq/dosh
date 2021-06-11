@@ -3,8 +3,8 @@ package dosh
 import (
 	"errors"
 	"fmt"
-	"strings"
 
+	"github.com/dogmatiq/dosh/internal/currency"
 	"github.com/shopspring/decimal"
 )
 
@@ -18,18 +18,19 @@ func (a Amount) MarshalBinary() ([]byte, error) {
 	}
 
 	data := append(
-		[]byte{byte(n)},
-		[]byte(c)...,
+		[]byte{byte(n)}, // 1-byte length of currency code
+		[]byte(c)...,    // currency code itself
 	)
 
 	m, err := a.mag.MarshalBinary()
 	if err != nil {
 		// CODE COVERAGE: It does not appear this branch can currently be
-		// reached as decimal.Decimal never returns a non-nil error.
+		// reached as decimal.Decimal.MarshalBinary() never returns a non-nil
+		// error.
 		return nil, fmt.Errorf("cannot marshal amount to binary representation: %w", err)
 	}
 
-	data = append(data, m...)
+	data = append(data, m...) // GOB encoded decimal
 
 	return data, nil
 }
@@ -43,27 +44,30 @@ func (a *Amount) UnmarshalBinary(data []byte) error {
 		return errors.New("cannot unmarshal amount from binary representation: data is empty")
 	}
 
+	// Read 1-byte length of currency code.
 	n := int(data[0])
 	data = data[1:]
 
-	if n == 0 {
-		return errors.New("cannot unmarshal amount from binary representation: currency component is empty")
-	}
-
 	if len(data) < n+4 {
-		// Note: +4 is a workaround to https://github.com/shopspring/decimal/issues/231.
+		// Note: +4 is a workaround for https://github.com/shopspring/decimal/issues/231.
 		return errors.New("cannot unmarshal amount from binary representation: data is shorter than expected")
 	}
 
+	// Unmarshal the currency code.
 	c := string(data[:n])
 	data = data[n:]
 
+	if err := currency.ValidateCode(c); err != nil {
+		return fmt.Errorf("cannot unmarshal amount from binary representation: %w", err)
+	}
+
+	// Unmarshal the magnitude component.
 	var m decimal.Decimal
 	if err := m.UnmarshalBinary(data); err != nil {
 		return fmt.Errorf("cannot unmarshal amount from binary representation: %w", err)
 	}
 
-	a.cur = strings.ToUpper(c)
+	a.cur = c
 	a.mag = m
 
 	return nil

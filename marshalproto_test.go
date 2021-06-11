@@ -15,12 +15,12 @@ import (
 var _ = Describe("type Amount (protocol buffers marshaling)", func() {
 	Describe("func MarshalProto()", func() {
 		It("returns the protocol buffers representation of the amount", func() {
-			a := MustParse("xyz", "10.123")
+			a := MustParse("XYZ", "10.123")
 
 			pb, err := a.MarshalProto()
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(pb).To(EqualX(&money.Money{
-				CurrencyCode: "XYZ", // note: uppercase
+				CurrencyCode: "XYZ",
 				Units:        10,
 				Nanos:        123000000,
 			}))
@@ -34,12 +34,12 @@ var _ = Describe("type Amount (protocol buffers marshaling)", func() {
 			},
 			Entry(
 				"integer component of the magnitude overflows an int64",
-				Int("xyz", math.MaxInt64).Add(Unit("xyz")),
+				Int("XYZ", math.MaxInt64).Add(Unit("XYZ")),
 				"cannot marshal amount to protocol buffers representation: magnitude's integer component overflows int64",
 			),
 			Entry(
 				"fractional component of the magnitude requires more precision than available",
-				MustParse("xyz", "0.0123456789"),
+				MustParse("XYZ", "0.0123456789"),
 				"cannot marshal amount to protocol buffers representation: magnitude's fractional component has too many decimal places",
 			),
 		)
@@ -50,12 +50,12 @@ var _ = Describe("type Amount (protocol buffers marshaling)", func() {
 			var a Amount
 
 			err := a.UnmarshalProto(&money.Money{
-				CurrencyCode: "xyz",
+				CurrencyCode: "XYZ",
 				Units:        10,
 				Nanos:        123000000,
 			})
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(a.CurrencyCode()).To(Equal("XYZ")) // note: uppercase
+			Expect(a.CurrencyCode()).To(Equal("XYZ"))
 
 			m := decimal.RequireFromString("10.123")
 			Expect(a.Magnitude().Equal(m))
@@ -71,7 +71,12 @@ var _ = Describe("type Amount (protocol buffers marshaling)", func() {
 			Entry(
 				"empty currency",
 				&money.Money{},
-				"cannot unmarshal amount from protocol buffers representation: currency code must not be empty",
+				"cannot unmarshal amount from protocol buffers representation: currency code is empty, codes must consist only of 3 or more uppercase ASCII letters",
+			),
+			Entry(
+				"invalid currency",
+				&money.Money{CurrencyCode: "X"},
+				"cannot unmarshal amount from protocol buffers representation: currency code (X) is invalid, codes must consist only of 3 or more uppercase ASCII letters",
 			),
 			Entry(
 				"units positive, nanos negative",
