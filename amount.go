@@ -125,7 +125,7 @@ func (a Amount) CurrencyCode() string {
 		return "USD"
 	}
 
-	return string(a.cur)
+	return a.cur
 }
 
 // Magnitude returns the decimal value of the amount without currency
