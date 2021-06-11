@@ -10,24 +10,6 @@ import (
 )
 
 var _ = Describe("type Amount (comparison functions)", func() {
-	vectors := []TableEntry{
-		Entry("equal, zero", "0", "0", 0),
-		Entry("equal, positive integer", "+1", "+1", 0),
-		Entry("equal, negative integer", "-1", "-1", 0),
-		Entry("equal, positive decimal, no units", "+0.123", "+0.123", 0),
-		Entry("equal, negative decimal, no units", "-0.123", "-0.123", 0),
-		Entry("equal, positive decimal", "+1.123", "+1.123", 0),
-		Entry("equal, negative decimal", "-1.123", "-1.123", 0),
-
-		Entry("less, zero", "0", "+1", -1),
-		Entry("less, positive integer", "+1", "+2", -1),
-		Entry("less, negative integer", "-2", "-1", -1),
-		Entry("less, positive decimal, no units", "+0.123", "+0.456", -1),
-		Entry("less, negative decimal, no units", "-0.456", "-0.123", -1),
-		Entry("less, positive decimal", "+1.123", "+1.456", -1),
-		Entry("less, negative decimal", "-1.456", "-1.123", -1),
-	}
-
 	Describe("func IsZero()", func() {
 		DescribeTable(
 			"returns true if the amount has a magnitude of zero",
@@ -63,6 +45,24 @@ var _ = Describe("type Amount (comparison functions)", func() {
 			Entry("negative", "-1.23", true),
 		)
 	})
+
+	vectors := []TableEntry{
+		Entry("equal, zero", "0", "0", 0),
+		Entry("equal, positive integer", "+1", "+1", 0),
+		Entry("equal, negative integer", "-1", "-1", 0),
+		Entry("equal, positive decimal, no units", "+0.123", "+0.123", 0),
+		Entry("equal, negative decimal, no units", "-0.123", "-0.123", 0),
+		Entry("equal, positive decimal", "+1.123", "+1.123", 0),
+		Entry("equal, negative decimal", "-1.123", "-1.123", 0),
+
+		Entry("less, zero", "0", "+1", -1),
+		Entry("less, positive integer", "+1", "+2", -1),
+		Entry("less, negative integer", "-2", "-1", -1),
+		Entry("less, positive decimal, no units", "+0.123", "+0.456", -1),
+		Entry("less, negative decimal, no units", "-0.456", "-0.123", -1),
+		Entry("less, positive decimal", "+1.123", "+1.456", -1),
+		Entry("less, negative decimal", "-1.456", "-1.123", -1),
+	}
 
 	Describe("func Cmp()", func() {
 		DescribeTable(

@@ -5,14 +5,14 @@ func (a Amount) IsZero() bool {
 	return a.mag.IsZero()
 }
 
-// IsNegative returns true if the amount has a negative magnitude.
-func (a Amount) IsNegative() bool {
-	return a.mag.IsNegative()
-}
-
 // IsPositive returns true if the amount has a positive magnitude.
 func (a Amount) IsPositive() bool {
 	return a.mag.IsPositive()
+}
+
+// IsNegative returns true if the amount has a negative magnitude.
+func (a Amount) IsNegative() bool {
+	return a.mag.IsNegative()
 }
 
 // Cmp compares a to b and returns a C-style comparison result.
