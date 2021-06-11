@@ -82,7 +82,7 @@ func (a *Amount) unmarshalProto(pb *money.Money) error {
 	units += int64(nanos) / nanosPerUnit.IntPart()
 	nanos %= nanosPerUnit.IntPart()
 
-	a.cur = []byte(strings.ToUpper(c))
+	a.cur = strings.ToUpper(c)
 	a.mag = decimal.NewFromInt(units).Add(
 		decimal.NewFromInt(nanos).Div(nanosPerUnit),
 	)

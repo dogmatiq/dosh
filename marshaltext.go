@@ -1,9 +1,9 @@
 package dosh
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/shopspring/decimal"
 )
@@ -18,19 +18,19 @@ func (a Amount) MarshalText() (text []byte, err error) {
 // NOTE: In order to comply with Go's encoding.TextUnmarshaler interface, this
 // method mutates the internals of a, violating Amount's immutability guarantee.
 func (a *Amount) UnmarshalText(text []byte) error {
-	text = bytes.TrimSpace(text)
-	parts := bytes.SplitN(text, []byte{' '}, 2)
+	str := strings.TrimSpace(string(text))
+	parts := strings.SplitN(str, " ", 2)
 
 	if len(parts) != 2 {
 		return errors.New("cannot unmarshal amount from text representation: data must have currency and magnitude components")
 	}
 
-	m, err := decimal.NewFromString(string(parts[1]))
+	m, err := decimal.NewFromString(parts[1])
 	if err != nil {
 		return fmt.Errorf("cannot unmarshal amount from text representation: %w", err)
 	}
 
-	a.cur = bytes.ToUpper(parts[0])
+	a.cur = strings.ToUpper(parts[0])
 	a.mag = m
 
 	return nil

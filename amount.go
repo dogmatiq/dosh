@@ -23,14 +23,13 @@ var (
 //
 // The zero-value represents zero US dollars (0 USD).
 type Amount struct {
+	_ [0]func() // prevent comparison with ==
+
 	// cur is the currency code that idenfifies what currency the magnitude is
 	// expressed in.
 	//
 	// An empty string is equivalent to "USD".
-	//
-	// A byte slice is used instead of a string to prevent comparison of Amount
-	// values using the built-in equality operator.
-	cur []byte
+	cur string
 
 	// mag is the monetary amount, expressed in whatever currency is specified
 	// by the currency field.
@@ -50,8 +49,8 @@ func New(c string, m decimal.Decimal) Amount {
 	}
 
 	return Amount{
-		[]byte(strings.ToUpper(c)),
-		m,
+		cur: strings.ToUpper(c),
+		mag: m,
 	}
 }
 

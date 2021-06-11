@@ -1,9 +1,9 @@
 package dosh
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/shopspring/decimal"
 )
@@ -55,7 +55,7 @@ func (a *Amount) UnmarshalBinary(data []byte) error {
 		return errors.New("cannot unmarshal amount from binary representation: data is shorter than expected")
 	}
 
-	c := data[:n]
+	c := string(data[:n])
 	data = data[n:]
 
 	var m decimal.Decimal
@@ -63,7 +63,7 @@ func (a *Amount) UnmarshalBinary(data []byte) error {
 		return fmt.Errorf("cannot unmarshal amount from binary representation: %w", err)
 	}
 
-	a.cur = bytes.ToUpper(c)
+	a.cur = strings.ToUpper(c)
 	a.mag = m
 
 	return nil
