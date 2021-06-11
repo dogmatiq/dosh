@@ -274,7 +274,7 @@ var _ = Describe("func Min()", func() {
 				MustParse("XYZ", "1"),
 				MustParse("ABC", "1"),
 			)
-		}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
+		}).To(PanicWith("can not operate on amounts in differing currencies (ABC vs XYZ)"))
 	})
 })
 
@@ -303,6 +303,6 @@ var _ = Describe("func Max()", func() {
 				MustParse("XYZ", "1"),
 				MustParse("ABC", "1"),
 			)
-		}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
+		}).To(PanicWith("can not operate on amounts in differing currencies (ABC vs XYZ)"))
 	})
 })

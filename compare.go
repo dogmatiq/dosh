@@ -105,7 +105,6 @@ func Min(amounts ...Amount) Amount {
 
 	a := amounts[0]
 	for _, b := range amounts[1:] {
-		assertSameCurrency(a, b)
 		if b.LessThan(a) {
 			a = b
 		}
@@ -125,7 +124,6 @@ func Max(amounts ...Amount) Amount {
 
 	a := amounts[0]
 	for _, b := range amounts[1:] {
-		assertSameCurrency(a, b)
 		if b.GreaterThan(a) {
 			a = b
 		}
