@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// ValidateCode returns an error if s is not a valid currency code.
+// ValidateCode returns an error if c is not a valid currency code.
 //
 // A valid currency code is a minimum of 3 characters long, and consists
 // entirely of uppercase ASCII letters.
