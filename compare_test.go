@@ -215,21 +215,21 @@ var _ = Describe("type Amount (comparison functions)", func() {
 	Describe("func LexicallyLessThan()", func() {
 		It("allows for lexical sorting of amounts by currency, then value", func() {
 			shuffled := []Amount{
-				MustParse("A", "1"),
-				MustParse("B", "-1"),
-				MustParse("B", "1"),
-				MustParse("B", "0"),
-				MustParse("A", "0"),
-				MustParse("A", "-1"),
+				MustParse("XXA", "1"),
+				MustParse("XXB", "-1"),
+				MustParse("XXB", "1"),
+				MustParse("XXB", "0"),
+				MustParse("XXA", "0"),
+				MustParse("XXA", "-1"),
 			}
 
 			sorted := []Amount{
-				MustParse("A", "-1"),
-				MustParse("A", "0"),
-				MustParse("A", "1"),
-				MustParse("B", "-1"),
-				MustParse("B", "0"),
-				MustParse("B", "1"),
+				MustParse("XXA", "-1"),
+				MustParse("XXA", "0"),
+				MustParse("XXA", "1"),
+				MustParse("XXB", "-1"),
+				MustParse("XXB", "0"),
+				MustParse("XXB", "1"),
 			}
 
 			sort.Slice(
