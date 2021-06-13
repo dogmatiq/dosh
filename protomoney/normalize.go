@@ -83,7 +83,8 @@ func assertSignsAgree(m *money.Money) {
 	}
 }
 
-// checkSignsAgree panics if the signs of m.Units and m.Nanos do not agree.
+// checkSignsAgree returns an error if the signs of m.Units and m.Nanos do not
+// agree.
 func checkSignsAgree(m *money.Money) error {
 	if (m.Units > 0 && m.Nanos < 0) || (m.Units < 0 && m.Nanos > 0) {
 		return fmt.Errorf(
