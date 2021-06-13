@@ -1,5 +1,2 @@
-// Package dosh represents and manipualtes monetary values both in-process
-// and on-the-wire.
-//
-// It adds "currency awareness" to the github.com/shopspring/decimal package.
+// Package dosh represents, manipulates and serializes monetary values.
 package dosh
