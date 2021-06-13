@@ -13,7 +13,7 @@ import (
 var _ = Describe("type Amount (binary marshaling)", func() {
 	Describe("func MarshalBinary() and UnmarshalBinary()", func() {
 		It("marshals and unmarshals an amount", func() {
-			a := MustParse("XYZ", "10.123")
+			a := FromString("XYZ", "10.123")
 
 			data, err := a.MarshalBinary()
 			Expect(err).ShouldNot(HaveOccurred())

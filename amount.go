@@ -17,11 +17,18 @@ var (
 
 // Amount represents an immutable amount of money in a specific currency.
 //
-// An Amount consists of a currency, specified by a currency code, and a
-// "magnitude", which is an arbitrary-precision decimal number describing the
-// number of units of that currency.
+// The zero-value represents zero US dollars ($0 USD).
 //
-// The zero-value represents zero US dollars (0 USD).
+// An Amount consists of a currency code and a magnitude.
+//
+// The currency code is a short string that identifies which currency the amount
+// represents. The magnitude is an arbitrary-precision decimal number describing
+// the number of units of that currency.
+//
+// Currency codes must consist of 3 or more uppercase ASCII letters. Any
+// operation that accepts a currency code will panic if provided with a code
+// that does not meet this criteria. Where possible, currency codes should be an
+// ISO-4217 3-letter code. Non-standard currency codes should begin with an "X".
 type Amount struct {
 	_ [0]func() // prevent comparison with ==
 
@@ -36,15 +43,26 @@ type Amount struct {
 	mag decimal.Decimal
 }
 
-// New returns an Amount with a specific currency and magnitude.
+// Zero returns an Amount with a magnitude of 0 (zero).
 //
-// c is the currency code that identifies the currency. It must consist only of
-// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
-// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
-// begin with an "X".
+// c is the currency code that identifies the currency.
+func Zero(c string) Amount {
+	return FromDecimal(c, zero)
+}
+
+// Unit returns an Amount with a magnitude of 1 (one).
+//
+// c is the currency code that identifies the currency.
+func Unit(c string) Amount {
+	return FromDecimal(c, unit)
+}
+
+// FromDecimal returns an Amount with a decimal magnitude
+//
+// c is the currency code that identifies the currency.
 //
 // m is the magnitude of the amount, expressed in the currency specified by c.
-func New(c string, m decimal.Decimal) Amount {
+func FromDecimal(c string, m decimal.Decimal) Amount {
 	if err := currency.ValidateCode(c); err != nil {
 		panic(err)
 	}
@@ -55,71 +73,40 @@ func New(c string, m decimal.Decimal) Amount {
 	}
 }
 
-// Zero returns an Amount with a magnitude of 0 (zero) in a specific currency.
+// FromInt returns an Amount with an integer magnitude.
 //
-// c is the currency code that identifies the currency. It must consist only of
-// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
-// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
-// begin with an "X".
-func Zero(c string) Amount {
-	return New(c, zero)
-}
-
-// Unit returns an Amount with a magnitude of 1 (one) in a specific currency.
-//
-// c is the currency code that identifies the currency. It must consist only of
-// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
-// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
-// begin with an "X".
-func Unit(c string) Amount {
-	return New(c, unit)
-}
-
-// Int returns an Amount with an integer magnitude in a specific currency.
-//
-// c is the currency code that identifies the currency. It must consist only of
-// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
-// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
-// begin with an "X".
+// c is the currency code that identifies the currency.
 //
 // m is the magnitude of the amount, expressed in the currency specified by c.
-func Int(c string, m int) Amount {
-	return New(c, decimal.NewFromInt(int64(m)))
+func FromInt(c string, m int) Amount {
+	return FromDecimal(c, decimal.NewFromInt(int64(m)))
 }
 
-// Parse returns a new Amount with a magnitude parsed from a decimal string.
+// FromString returns an Amount with a magnitude parsed from a numeric string.
 //
-// c is the currency code that identifies the currency. It must consist only of
-// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
-// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
-// begin with an "X".
+// c is the currency code that identifies the currency.
 //
-// m is the string representation of an integer or decimal number, expressed in
-// the currency specified by c.
-func Parse(c, m string) (Amount, error) {
-	d, err := decimal.NewFromString(m)
-	if err != nil {
-		return Amount{}, err
-	}
-
-	return New(c, d), nil
-}
-
-// MustParse returns a new Amount with a magnitude parsed from a decimal string
-// or panics if unable to do so.
-//
-// c is the currency code that identifies the currency. It must consist only of
-// uppercase ASCII letters and have a minimum length of 3. It SHOULD be an
-// ISO-4217 3-letter code where applicable. Non-standard currency codes SHOULD
-// begin with an "X".
-//
-// m is the string representation of an integer or decimal number, expressed in
-// the currency specified by c.
-func MustParse(c, m string) Amount {
-	return New(
+// m is the string representation if the magnitude, expressed in the currency
+// specified by c. It must use integer, decimal or scientific notation,
+// otherwise a panic occurs.
+func FromString(c, m string) Amount {
+	return FromDecimal(
 		c,
 		decimal.RequireFromString(m),
 	)
+}
+
+// TryFromString returns an Amount with a magnitude parsed from a numeric
+// string.
+//
+// c is the currency code that identifies the currency.
+//
+// m is the string representation if the magnitude, expressed in the currency
+// specified by c. It must use integer, decimal or scientific notation,
+// otherwise ok is false, and the returned amount is undefined.
+func TryFromString(c, m string) (_ Amount, ok bool) {
+	d, err := decimal.NewFromString(m)
+	return FromDecimal(c, d), err == nil
 }
 
 // CurrencyCode returns the currency code for the currency in which the amount
@@ -161,7 +148,7 @@ func (a Amount) GoString() string {
 	}
 
 	return fmt.Sprintf(
-		"money.MustParse(%#v, %#v)",
+		"money.FromString(%#v, %#v)",
 		a.CurrencyCode(),
 		a.mag.String(),
 	)

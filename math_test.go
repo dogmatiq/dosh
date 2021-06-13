@@ -13,8 +13,8 @@ var _ = Describe("type Amount (math methods)", func() {
 		DescribeTable(
 			"it returns an amount with the absolute magnitude",
 			func(dec string, expect string) {
-				a := MustParse("XYZ", dec).Abs()
-				x := MustParse("XYZ", expect)
+				a := FromString("XYZ", dec).Abs()
+				x := FromString("XYZ", expect)
 				Expect(a.EqualTo(x)).To(BeTrue())
 			},
 			Entry("zero", "0", "0"),
@@ -27,8 +27,8 @@ var _ = Describe("type Amount (math methods)", func() {
 		DescribeTable(
 			"it returns an amount with the inverse magnitude",
 			func(dec string, expect string) {
-				a := MustParse("XYZ", dec).Neg()
-				x := MustParse("XYZ", expect)
+				a := FromString("XYZ", dec).Neg()
+				x := FromString("XYZ", expect)
 				Expect(a.EqualTo(x)).To(BeTrue())
 			},
 			Entry("zero", "0", "0"),
@@ -39,16 +39,16 @@ var _ = Describe("type Amount (math methods)", func() {
 
 	Describe("func Add()", func() {
 		It("returns a + b", func() {
-			a := MustParse("XYZ", "1.23")
-			b := MustParse("XYZ", "3.45")
-			x := MustParse("XYZ", "4.68")
+			a := FromString("XYZ", "1.23")
+			b := FromString("XYZ", "3.45")
+			x := FromString("XYZ", "4.68")
 			Expect(a.Add(b).EqualTo(x)).To(BeTrue())
 		})
 
 		It("panics if the amounts do not have the same currency", func() {
 			Expect(func() {
-				a := MustParse("XYZ", "1")
-				b := MustParse("ABC", "1")
+				a := FromString("XYZ", "1")
+				b := FromString("ABC", "1")
 				a.Add(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
@@ -56,16 +56,16 @@ var _ = Describe("type Amount (math methods)", func() {
 
 	Describe("func Sub()", func() {
 		It("returns a - b", func() {
-			a := MustParse("XYZ", "1.23")
-			b := MustParse("XYZ", "3.45")
-			x := MustParse("XYZ", "-2.22")
+			a := FromString("XYZ", "1.23")
+			b := FromString("XYZ", "3.45")
+			x := FromString("XYZ", "-2.22")
 			Expect(a.Sub(b).EqualTo(x)).To(BeTrue())
 		})
 
 		It("panics if the amounts do not have the same currency", func() {
 			Expect(func() {
-				a := MustParse("XYZ", "1")
-				b := MustParse("ABC", "1")
+				a := FromString("XYZ", "1")
+				b := FromString("ABC", "1")
 				a.Sub(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
@@ -73,25 +73,25 @@ var _ = Describe("type Amount (math methods)", func() {
 
 	Describe("func MulScalar()", func() {
 		It("returns a * b", func() {
-			a := MustParse("XYZ", "1.23")
+			a := FromString("XYZ", "1.23")
 			b := decimal.RequireFromString("3.45")
-			x := MustParse("XYZ", "4.2435")
+			x := FromString("XYZ", "4.2435")
 			Expect(a.MulScalar(b).EqualTo(x)).To(BeTrue())
 		})
 	})
 
 	Describe("func Div()", func() {
 		It("returns a / b", func() {
-			a := MustParse("XYZ", "1.23")
-			b := MustParse("XYZ", "0.5")
+			a := FromString("XYZ", "1.23")
+			b := FromString("XYZ", "0.5")
 			x := decimal.RequireFromString("2.46")
 			Expect(a.Div(b).Equal(x)).To(BeTrue())
 		})
 
 		It("panics if the amounts do not have the same currency", func() {
 			Expect(func() {
-				a := MustParse("XYZ", "1")
-				b := MustParse("ABC", "1")
+				a := FromString("XYZ", "1")
+				b := FromString("ABC", "1")
 				a.Div(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
@@ -105,9 +105,9 @@ var _ = Describe("type Amount (math methods)", func() {
 
 	Describe("func DivScalar()", func() {
 		It("returns a / b", func() {
-			a := MustParse("XYZ", "1.23")
+			a := FromString("XYZ", "1.23")
 			b := decimal.RequireFromString("0.5")
-			x := MustParse("XYZ", "2.46")
+			x := FromString("XYZ", "2.46")
 			Expect(a.DivScalar(b).EqualTo(x)).To(BeTrue())
 		})
 
@@ -120,16 +120,16 @@ var _ = Describe("type Amount (math methods)", func() {
 
 	Describe("func Mod()", func() {
 		It("returns a % b", func() {
-			a := MustParse("XYZ", "1.23")
-			b := MustParse("XYZ", "0.5")
+			a := FromString("XYZ", "1.23")
+			b := FromString("XYZ", "0.5")
 			x := decimal.RequireFromString("0.23")
 			Expect(a.Mod(b).Equal(x)).To(BeTrue())
 		})
 
 		It("panics if the amounts do not have the same currency", func() {
 			Expect(func() {
-				a := MustParse("XYZ", "1")
-				b := MustParse("ABC", "1")
+				a := FromString("XYZ", "1")
+				b := FromString("ABC", "1")
 				a.Mod(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
@@ -143,9 +143,9 @@ var _ = Describe("type Amount (math methods)", func() {
 
 	Describe("func ModScalar()", func() {
 		It("returns a % b", func() {
-			a := MustParse("XYZ", "1.23")
+			a := FromString("XYZ", "1.23")
 			b := decimal.RequireFromString("0.5")
-			x := MustParse("XYZ", "0.23")
+			x := FromString("XYZ", "0.23")
 			Expect(a.ModScalar(b).EqualTo(x)).To(BeTrue())
 		})
 
@@ -161,11 +161,11 @@ var _ = Describe("func Sum()", func() {
 	It("returns the sum of all amounts", func() {
 		Expect(
 			Sum(
-				MustParse("XYZ", "1"),
-				MustParse("XYZ", "2"),
-				MustParse("XYZ", "3"),
+				FromString("XYZ", "1"),
+				FromString("XYZ", "2"),
+				FromString("XYZ", "3"),
 			).EqualTo(
-				MustParse("XYZ", "6"),
+				FromString("XYZ", "6"),
 			),
 		).To(BeTrue())
 	})
@@ -179,8 +179,8 @@ var _ = Describe("func Sum()", func() {
 	It("panics if the amounts do not have the same currency", func() {
 		Expect(func() {
 			Sum(
-				MustParse("XYZ", "1"),
-				MustParse("ABC", "1"),
+				FromString("XYZ", "1"),
+				FromString("ABC", "1"),
 			)
 		}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 	})
@@ -190,11 +190,11 @@ var _ = Describe("func Avg()", func() {
 	It("returns the average (mean) of all values", func() {
 		Expect(
 			Avg(
-				MustParse("XYZ", "1"),
-				MustParse("XYZ", "2"),
-				MustParse("XYZ", "3"),
+				FromString("XYZ", "1"),
+				FromString("XYZ", "2"),
+				FromString("XYZ", "3"),
 			).EqualTo(
-				MustParse("XYZ", "2"),
+				FromString("XYZ", "2"),
 			),
 		).To(BeTrue())
 	})
@@ -208,8 +208,8 @@ var _ = Describe("func Avg()", func() {
 	It("panics if the amounts do not have the same currency", func() {
 		Expect(func() {
 			Avg(
-				MustParse("XYZ", "1"),
-				MustParse("ABC", "1"),
+				FromString("XYZ", "1"),
+				FromString("ABC", "1"),
 			)
 		}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 	})

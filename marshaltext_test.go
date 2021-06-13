@@ -11,7 +11,7 @@ import (
 var _ = Describe("type Amount (text marshaling)", func() {
 	Describe("func MarshalText()", func() {
 		It("returns a textual representation of the amount", func() {
-			a := MustParse("XYZ", "10.123")
+			a := FromString("XYZ", "10.123")
 
 			data, err := a.MarshalText()
 			Expect(err).ShouldNot(HaveOccurred())

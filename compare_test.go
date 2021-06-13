@@ -14,7 +14,7 @@ var _ = Describe("type Amount (comparison functions)", func() {
 		DescribeTable(
 			"it returns true if the amount has a magnitude of zero",
 			func(dec string, expect bool) {
-				Expect(MustParse("XYZ", dec).IsZero()).To(Equal(expect))
+				Expect(FromString("XYZ", dec).IsZero()).To(Equal(expect))
 			},
 			Entry("zero", "0", true),
 			Entry("positive", "1.23", false),
@@ -26,7 +26,7 @@ var _ = Describe("type Amount (comparison functions)", func() {
 		DescribeTable(
 			"it returns true if the amount has a positive magnitude",
 			func(dec string, expect bool) {
-				Expect(MustParse("XYZ", dec).IsPositive()).To(Equal(expect))
+				Expect(FromString("XYZ", dec).IsPositive()).To(Equal(expect))
 			},
 			Entry("zero", "0", false),
 			Entry("positive", "1.23", true),
@@ -38,7 +38,7 @@ var _ = Describe("type Amount (comparison functions)", func() {
 		DescribeTable(
 			"it returns true if the amount has a negative magnitude",
 			func(dec string, expect bool) {
-				Expect(MustParse("XYZ", dec).IsNegative()).To(Equal(expect))
+				Expect(FromString("XYZ", dec).IsNegative()).To(Equal(expect))
 			},
 			Entry("zero", "0", false),
 			Entry("positive", "1.23", false),
@@ -68,8 +68,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 		DescribeTable(
 			"it returns a C-style comparison result",
 			func(a, b string, expect int) {
-				l := MustParse("XYZ", a)
-				r := MustParse("XYZ", b)
+				l := FromString("XYZ", a)
+				r := FromString("XYZ", b)
 				x := l.Cmp(r)
 				y := r.Cmp(l)
 
@@ -86,8 +86,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 
 		It("panics if the amounts do not have the same currency", func() {
 			Expect(func() {
-				a := MustParse("XYZ", "1")
-				b := MustParse("ABC", "1")
+				a := FromString("XYZ", "1")
+				b := FromString("ABC", "1")
 				a.Cmp(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
@@ -97,8 +97,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 		DescribeTable(
 			"it returns true if the amounts have the same magnitude",
 			func(a, b string, expect int) {
-				l := MustParse("XYZ", a)
-				r := MustParse("XYZ", b)
+				l := FromString("XYZ", a)
+				r := FromString("XYZ", b)
 				Expect(l.EqualTo(r)).To(Equal(expect == 0))
 				Expect(r.EqualTo(l)).To(Equal(expect == 0))
 			},
@@ -107,8 +107,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 
 		It("panics if the amounts do not have the same currency", func() {
 			Expect(func() {
-				a := MustParse("XYZ", "1")
-				b := MustParse("ABC", "1")
+				a := FromString("XYZ", "1")
+				b := FromString("ABC", "1")
 				a.EqualTo(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
@@ -118,8 +118,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 		DescribeTable(
 			"it returns true if the amounts have the same currency and magnitude",
 			func(a, b string, expect int) {
-				l := MustParse("XYZ", a)
-				r := MustParse("XYZ", b)
+				l := FromString("XYZ", a)
+				r := FromString("XYZ", b)
 				Expect(l.IdenticalTo(r)).To(Equal(expect == 0))
 				Expect(r.IdenticalTo(l)).To(Equal(expect == 0))
 			},
@@ -127,8 +127,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 		)
 
 		It("returns false if the amounts have a different currency", func() {
-			a := MustParse("XYZ", "1")
-			b := MustParse("ABC", "1")
+			a := FromString("XYZ", "1")
+			b := FromString("ABC", "1")
 			Expect(a.IdenticalTo(b)).To(BeFalse())
 		})
 	})
@@ -137,8 +137,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 		DescribeTable(
 			"it returns true if a < b",
 			func(a, b string, expect int) {
-				l := MustParse("XYZ", a)
-				r := MustParse("XYZ", b)
+				l := FromString("XYZ", a)
+				r := FromString("XYZ", b)
 				Expect(l.LessThan(r)).To(Equal(expect < 0))
 				Expect(r.LessThan(l)).To(Equal(expect > 0))
 			},
@@ -147,8 +147,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 
 		It("panics if the amounts do not have the same currency", func() {
 			Expect(func() {
-				a := MustParse("XYZ", "1")
-				b := MustParse("ABC", "1")
+				a := FromString("XYZ", "1")
+				b := FromString("ABC", "1")
 				a.LessThan(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
@@ -158,8 +158,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 		DescribeTable(
 			"it returns true if a <= b",
 			func(a, b string, expect int) {
-				l := MustParse("XYZ", a)
-				r := MustParse("XYZ", b)
+				l := FromString("XYZ", a)
+				r := FromString("XYZ", b)
 				Expect(l.LessThanOrEqualTo(r)).To(Equal(expect <= 0))
 				Expect(r.LessThanOrEqualTo(l)).To(Equal(expect >= 0))
 			},
@@ -168,8 +168,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 
 		It("panics if the amounts do not have the same currency", func() {
 			Expect(func() {
-				a := MustParse("XYZ", "1")
-				b := MustParse("ABC", "1")
+				a := FromString("XYZ", "1")
+				b := FromString("ABC", "1")
 				a.LessThanOrEqualTo(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
@@ -179,8 +179,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 		DescribeTable(
 			"it returns true if a > b",
 			func(a, b string, expect int) {
-				l := MustParse("XYZ", a)
-				r := MustParse("XYZ", b)
+				l := FromString("XYZ", a)
+				r := FromString("XYZ", b)
 				Expect(l.GreaterThan(r)).To(Equal(expect > 0))
 				Expect(r.GreaterThan(l)).To(Equal(expect < 0))
 			},
@@ -189,8 +189,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 
 		It("panics if the amounts do not have the same currency", func() {
 			Expect(func() {
-				a := MustParse("XYZ", "1")
-				b := MustParse("ABC", "1")
+				a := FromString("XYZ", "1")
+				b := FromString("ABC", "1")
 				a.GreaterThan(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
@@ -200,8 +200,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 		DescribeTable(
 			"it returns true if a >= b",
 			func(a, b string, expect int) {
-				l := MustParse("XYZ", a)
-				r := MustParse("XYZ", b)
+				l := FromString("XYZ", a)
+				r := FromString("XYZ", b)
 				Expect(l.GreaterThanOrEqualTo(r)).To(Equal(expect >= 0))
 				Expect(r.GreaterThanOrEqualTo(l)).To(Equal(expect <= 0))
 			},
@@ -210,8 +210,8 @@ var _ = Describe("type Amount (comparison functions)", func() {
 
 		It("panics if the amounts do not have the same currency", func() {
 			Expect(func() {
-				a := MustParse("XYZ", "1")
-				b := MustParse("ABC", "1")
+				a := FromString("XYZ", "1")
+				b := FromString("ABC", "1")
 				a.GreaterThanOrEqualTo(b)
 			}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
 		})
@@ -220,21 +220,21 @@ var _ = Describe("type Amount (comparison functions)", func() {
 	Describe("func LexicallyLessThan()", func() {
 		It("allows for lexical sorting of amounts by currency, then value", func() {
 			shuffled := []Amount{
-				MustParse("XXA", "1"),
-				MustParse("XXB", "-1"),
-				MustParse("XXB", "1"),
-				MustParse("XXB", "0"),
-				MustParse("XXA", "0"),
-				MustParse("XXA", "-1"),
+				FromString("XXA", "1"),
+				FromString("XXB", "-1"),
+				FromString("XXB", "1"),
+				FromString("XXB", "0"),
+				FromString("XXA", "0"),
+				FromString("XXA", "-1"),
 			}
 
 			sorted := []Amount{
-				MustParse("XXA", "-1"),
-				MustParse("XXA", "0"),
-				MustParse("XXA", "1"),
-				MustParse("XXB", "-1"),
-				MustParse("XXB", "0"),
-				MustParse("XXB", "1"),
+				FromString("XXA", "-1"),
+				FromString("XXA", "0"),
+				FromString("XXA", "1"),
+				FromString("XXB", "-1"),
+				FromString("XXB", "0"),
+				FromString("XXB", "1"),
 			}
 
 			sort.Slice(
@@ -253,11 +253,11 @@ var _ = Describe("func Min()", func() {
 	It("returns the smallest of the given amounts", func() {
 		Expect(
 			Min(
-				MustParse("XYZ", "2"),
-				MustParse("XYZ", "1"),
-				MustParse("XYZ", "3"),
+				FromString("XYZ", "2"),
+				FromString("XYZ", "1"),
+				FromString("XYZ", "3"),
 			).EqualTo(
-				MustParse("XYZ", "1"),
+				FromString("XYZ", "1"),
 			),
 		).To(BeTrue())
 	})
@@ -271,8 +271,8 @@ var _ = Describe("func Min()", func() {
 	It("panics if the amounts do not have the same currency", func() {
 		Expect(func() {
 			Min(
-				MustParse("XYZ", "1"),
-				MustParse("ABC", "1"),
+				FromString("XYZ", "1"),
+				FromString("ABC", "1"),
 			)
 		}).To(PanicWith("can not operate on amounts in differing currencies (ABC vs XYZ)"))
 	})
@@ -282,11 +282,11 @@ var _ = Describe("func Max()", func() {
 	It("returns the largest of the given amounts", func() {
 		Expect(
 			Max(
-				MustParse("XYZ", "2"),
-				MustParse("XYZ", "1"),
-				MustParse("XYZ", "3"),
+				FromString("XYZ", "2"),
+				FromString("XYZ", "1"),
+				FromString("XYZ", "3"),
 			).EqualTo(
-				MustParse("XYZ", "3"),
+				FromString("XYZ", "3"),
 			),
 		).To(BeTrue())
 	})
@@ -300,8 +300,8 @@ var _ = Describe("func Max()", func() {
 	It("panics if the amounts do not have the same currency", func() {
 		Expect(func() {
 			Max(
-				MustParse("XYZ", "1"),
-				MustParse("ABC", "1"),
+				FromString("XYZ", "1"),
+				FromString("ABC", "1"),
 			)
 		}).To(PanicWith("can not operate on amounts in differing currencies (ABC vs XYZ)"))
 	})

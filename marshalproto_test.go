@@ -15,7 +15,7 @@ import (
 var _ = Describe("type Amount (protocol buffers marshaling)", func() {
 	Describe("func MarshalProto()", func() {
 		It("returns the protocol buffers representation of the amount", func() {
-			a := MustParse("XYZ", "10.123")
+			a := FromString("XYZ", "10.123")
 
 			pb, err := a.MarshalProto()
 			Expect(err).ShouldNot(HaveOccurred())
@@ -34,12 +34,12 @@ var _ = Describe("type Amount (protocol buffers marshaling)", func() {
 			},
 			Entry(
 				"integer component of the magnitude overflows an int64",
-				Int("XYZ", math.MaxInt64).Add(Unit("XYZ")),
+				FromInt("XYZ", math.MaxInt64).Add(Unit("XYZ")),
 				"cannot marshal amount to protocol buffers representation: magnitude's integer component overflows int64",
 			),
 			Entry(
 				"fractional component of the magnitude requires more precision than available",
-				MustParse("XYZ", "0.0123456789"),
+				FromString("XYZ", "0.0123456789"),
 				"cannot marshal amount to protocol buffers representation: magnitude's fractional component has too many decimal places",
 			),
 		)

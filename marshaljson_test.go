@@ -13,7 +13,7 @@ import (
 var _ = Describe("type Amount (JSON marshaling)", func() {
 	Describe("func MarshalJSON()", func() {
 		It("returns the JSON representation of the amount", func() {
-			a := MustParse("XYZ", "10.123")
+			a := FromString("XYZ", "10.123")
 
 			data, err := a.MarshalJSON()
 			Expect(err).ShouldNot(HaveOccurred())
@@ -30,12 +30,12 @@ var _ = Describe("type Amount (JSON marshaling)", func() {
 			},
 			Entry(
 				"integer component of the magnitude overflows an int64",
-				Int("XYZ", math.MaxInt64).Add(Unit("XYZ")),
+				FromInt("XYZ", math.MaxInt64).Add(Unit("XYZ")),
 				"cannot marshal amount to JSON representation: magnitude's integer component overflows int64",
 			),
 			Entry(
 				"fractional component of the magnitude requires more precision that available",
-				MustParse("XYZ", "0.0123456789"),
+				FromString("XYZ", "0.0123456789"),
 				"cannot marshal amount to JSON representation: magnitude's fractional component has too many decimal places",
 			),
 		)
