@@ -9,13 +9,13 @@ func IsZero(m *money.Money) bool {
 	return m.Units == 0 && m.Nanos == 0
 }
 
-// IsPositive returns true m has a positive magnitude.
+// IsPositive returns true if m has a positive magnitude.
 func IsPositive(m *money.Money) bool {
 	assertSignsAgree(m)
 	return m.Units > 0 || m.Nanos > 0
 }
 
-// IsNegative returns true m has a negative magnitude.
+// IsNegative returns true if m has a negative magnitude.
 func IsNegative(m *money.Money) bool {
 	assertSignsAgree(m)
 	return m.Units < 0 || m.Nanos < 0
