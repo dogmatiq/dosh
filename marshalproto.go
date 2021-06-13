@@ -12,6 +12,28 @@ import (
 // nanosPerUnit is the number of "nano units" in each unit.
 var nanosPerUnit = decimal.NewFromInt(1_000_000_000)
 
+// FromProto unmarshals an amount from its protocol buffers representation, or
+// panics if unable to do so.
+func FromProto(m *money.Money) Amount {
+	var a Amount
+	if err := a.UnmarshalProto(m); err != nil {
+		panic(err)
+	}
+
+	return a
+}
+
+// ToProto marshals an amount to its protocol buffers representation, or panics
+// if unable to do so.
+func ToProto(a Amount) *money.Money {
+	pb, err := a.MarshalProto()
+	if err != nil {
+		panic(err)
+	}
+
+	return pb
+}
+
 // MarshalProto mashals an amount to its protocol buffers representation.
 func (a Amount) MarshalProto() (*money.Money, error) {
 	pb, err := a.marshalProto()
