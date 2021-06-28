@@ -8,5 +8,5 @@ require (
 	github.com/onsi/gomega v1.13.0
 	github.com/shopspring/decimal v1.2.0
 	google.golang.org/genproto v0.0.0-20210608205507-b6d2f5bf0d7d
-	google.golang.org/protobuf v1.26.0
+	google.golang.org/protobuf v1.27.0
 )
