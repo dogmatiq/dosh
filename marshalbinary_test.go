@@ -75,12 +75,12 @@ var _ = Describe("type Amount (binary marshaling)", func() {
 			Entry(
 				"empty magnitude",
 				"\x03USD",
-				"cannot unmarshal amount from binary representation: data is shorter than expected",
+				"cannot unmarshal amount from binary representation: error decoding binary []: expected at least 5 bytes, got 0",
 			),
 			Entry(
 				"invalid magnitude",
 				"\x03USD<invalid>",
-				"cannot unmarshal amount from binary representation: Int.GobDecode: encoding version 48 not supported",
+				"cannot unmarshal amount from binary representation: error decoding binary [60 105 110 118 97 108 105 100 62]: Int.GobDecode: encoding version 48 not supported",
 			),
 		)
 	})
