@@ -48,11 +48,6 @@ func (a *Amount) UnmarshalBinary(data []byte) error {
 	n := int(data[0])
 	data = data[1:]
 
-	if len(data) < n+4 {
-		// Note: +4 is a workaround for https://github.com/shopspring/decimal/issues/231.
-		return errors.New("cannot unmarshal amount from binary representation: data is shorter than expected")
-	}
-
 	// Unmarshal the currency code.
 	c := string(data[:n])
 	data = data[n:]
