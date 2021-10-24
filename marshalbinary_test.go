@@ -24,6 +24,19 @@ var _ = Describe("type Amount (binary marshaling)", func() {
 
 			Expect(a.EqualTo(b)).To(BeTrue())
 		})
+
+		It("marshals and unmarshals a zero value", func() {
+			var a Amount
+
+			data, err := a.MarshalBinary()
+			Expect(err).ShouldNot(HaveOccurred())
+
+			var b Amount
+			err = b.UnmarshalBinary(data)
+			Expect(err).ShouldNot(HaveOccurred())
+
+			Expect(a.EqualTo(b)).To(BeTrue())
+		})
 	})
 
 	Describe("func MarshalBinary()", func() {
@@ -75,7 +88,7 @@ var _ = Describe("type Amount (binary marshaling)", func() {
 			Entry(
 				"empty magnitude",
 				"\x03USD",
-				"cannot unmarshal amount from binary representation: error decoding binary []: expected at least 5 bytes, got 0",
+				"cannot unmarshal amount from binary representation: error decoding binary []: expected at least 4 bytes, got 0",
 			),
 			Entry(
 				"invalid magnitude",
