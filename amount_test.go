@@ -90,6 +90,14 @@ var _ = Describe("type Amount", func() {
 			m = decimal.RequireFromString("1.23")
 			Expect(a.Magnitude().Equal(m)).To(BeTrue())
 
+			By("parsing a decimal with trailing zeroes")
+
+			a = FromString("XYZ", "1000.00")
+			Expect(a.CurrencyCode()).To(Equal("XYZ"))
+
+			m = decimal.RequireFromString("1000.00")
+			Expect(a.Magnitude().Equal(m)).To(BeTrue())
+
 			By("parsing scientific notation")
 
 			a = FromString("XYZ", "123e-2")
