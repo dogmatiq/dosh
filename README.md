@@ -39,6 +39,7 @@ an `Amount`.
 ## Caveats
 
 Google's `money` package does _not_ include the source `.proto` file used to
-generate the `money.Money` type. This makes it difficult to import into
-user-defined protocol buffers messages. To that end, [the original `.proto` file
-is included in Dosh's `protomoney` package](protomoney/money.proto).
+generate the [`money.Money`](https://pkg.go.dev/google.golang.org/genproto/googleapis/type/money#Money)
+type. This makes it difficult to use the `Money` type in user-defined protocol
+buffers messages. For this reason, [the original `.proto` file is included in
+Dosh's `protomoney` package](protomoney/money.proto).
