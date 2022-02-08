@@ -35,3 +35,10 @@ Dosh also provides the [`protomoney`](https://pkg.go.dev/github.com/dogmatiq/dos
 package, which can be used to perform comparisons and basic mathematical
 operations on `google.type.Money` values directly, without unmarshaling them to
 an `Amount`.
+
+## Caveats
+
+Google's `money` package does _not_ include the source `.proto` file used to
+generate the `money.Money` type. This makes it difficult to import into
+user-defined protocol buffers messages. To that end, [the original `.proto` file
+is included in Dosh's `protomoney` package](protomoney/money.proto).
