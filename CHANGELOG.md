@@ -6,15 +6,24 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning].
 
 <!-- references -->
-[Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
-[Semantic Versioning]: https://semver.org/spec/v2.0.0.html
+
+[keep a changelog]: https://keepachangelog.com/en/1.0.0/
+[semantic versioning]: https://semver.org/spec/v2.0.0.html
+
+## [Unreleased]
+
+### Added
+
+- Add `protomoney.Fmt()`
+- Add original Google `money.proto` file to `protomoney` package
 
 ## [0.1.0] - 2021-06-14
 
 - Initial release
 
 <!-- references -->
-[Unreleased]: https://github.com/dogmatiq/dosh
+
+[unreleased]: https://github.com/dogmatiq/dosh
 [0.1.0]: https://github.com/dogmatiq/dogma/releases/tag/v0.1.0
 
 <!-- version template
