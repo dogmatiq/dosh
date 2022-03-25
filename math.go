@@ -35,7 +35,7 @@ func (a Amount) Sub(b Amount) Amount {
 	return a
 }
 
-// Mul returns a * b, where b is a scalar decimal value.
+// MulScalar returns a * b, where b is a scalar decimal value.
 func (a Amount) MulScalar(b decimal.Decimal) Amount {
 	a.mag = a.mag.Mul(b)
 	return a
