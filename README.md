@@ -1,13 +1,15 @@
+<div align="center">
+
 # Dosh
 
-[![Build Status](https://github.com/dogmatiq/dosh/workflows/CI/badge.svg)](https://github.com/dogmatiq/dosh/actions?workflow=CI)
-[![Code Coverage](https://img.shields.io/codecov/c/github/dogmatiq/dosh/main.svg)](https://codecov.io/github/dogmatiq/dosh)
-[![Latest Version](https://img.shields.io/github/tag/dogmatiq/dosh.svg?label=semver)](https://semver.org)
-[![Documentation](https://img.shields.io/badge/go.dev-reference-007d9c)](https://pkg.go.dev/github.com/dogmatiq/dosh)
-[![Go Report Card](https://goreportcard.com/badge/github.com/dogmatiq/dosh)](https://goreportcard.com/report/github.com/dogmatiq/dosh)
+A Go module for representing, manipulating and serializing monetary values.
 
-Dosh is a Go library for representing, manipulating and serializing monetary
-values.
+[![Documentation](https://img.shields.io/badge/go.dev-documentation-007d9c?&style=for-the-badge)](https://pkg.go.dev/github.com/dogmatiq/dosh)
+[![Latest Version](https://img.shields.io/github/tag/dogmatiq/dosh.svg?&style=for-the-badge&label=semver)](https://github.com/dogmatiq/dosh/releases)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/dogmatiq/dosh/ci.yml?style=for-the-badge&branch=main)](https://github.com/dogmatiq/dosh/actions/workflows/ci.yml)
+[![Code Coverage](https://img.shields.io/codecov/c/github/dogmatiq/dosh/main.svg?style=for-the-badge)](https://codecov.io/github/dogmatiq/dosh)
+
+</div>
 
 The API is centered around the [`Amount`](https://pkg.go.dev/github.com/dogmatiq/dosh#Amount)
 type, which is an immutable monetary value in a specific currency. It is based
