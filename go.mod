@@ -1,6 +1,6 @@
 module github.com/dogmatiq/dosh
 
-go 1.17
+go 1.19
 
 require (
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a
