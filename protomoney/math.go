@@ -51,11 +51,22 @@ func Add(a, b *money.Money) *money.Money {
 // It panics if a and b do not use the same currency.
 func Sub(a, b *money.Money) *money.Money {
 	assertSameCurrency(a, b)
+	units := a.Units - b.Units
+	nanos := a.Nanos - b.Nanos
+
+	if units > 0 && nanos < 0 {
+		nanos = nanosPerUnit + nanos
+		units--
+	}
+
+	if units < 0 && nanos > 0 {
+		nanos = -nanos
+	}
 
 	m := &money.Money{
 		CurrencyCode: a.CurrencyCode,
-		Units:        a.Units - b.Units,
-		Nanos:        a.Nanos - b.Nanos,
+		Units:        units,
+		Nanos:        nanos,
 	}
 
 	normalizeInPlace(m)
