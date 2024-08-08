@@ -58,11 +58,19 @@ func normalize(m *money.Money) *money.Money {
 		return m
 	}
 
+	units, nanos := normalizeComponents(m)
+
 	return &money.Money{
 		CurrencyCode: m.CurrencyCode,
-		Units:        m.Units + (int64(m.Nanos) / nanosPerUnit),
-		Nanos:        m.Nanos % nanosPerUnit,
+		Units:        units,
+		Nanos:        nanos,
 	}
+}
+
+func normalizeComponents(m *money.Money) (int64, int32) {
+	units := m.Units + (int64(m.Nanos) / nanosPerUnit)
+	nanos := m.Nanos % nanosPerUnit
+	return units, nanos
 }
 
 // assertSameCurrency panics if a and b do not have the same currency.

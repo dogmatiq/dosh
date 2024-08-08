@@ -86,6 +86,18 @@ var _ = Describe("func Sub()", func() {
 			&money.Money{CurrencyCode: "XYZ", Units: -2, Nanos: -220000000},
 		),
 		Entry(
+			"nanos overflow",
+			&money.Money{CurrencyCode: "XYZ", Units: 0, Nanos: 2},
+			&money.Money{CurrencyCode: "XYZ", Units: 0, Nanos: -999_999_999},
+			&money.Money{CurrencyCode: "XYZ", Units: 1, Nanos: 1},
+		),
+		Entry(
+			"nanos underflow",
+			&money.Money{CurrencyCode: "XYZ", Units: 0, Nanos: -2},
+			&money.Money{CurrencyCode: "XYZ", Units: 0, Nanos: 999_999_999},
+			&money.Money{CurrencyCode: "XYZ", Units: -1, Nanos: -1},
+		),
+		Entry(
 			"positive unit and negative nanos are normalized",
 			&money.Money{CurrencyCode: "XYZ", Units: 40, Nanos: 0},
 			&money.Money{CurrencyCode: "XYZ", Units: 0, Nanos: 450000000},
