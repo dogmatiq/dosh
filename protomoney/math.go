@@ -60,7 +60,8 @@ func Sub(a, b *money.Money) *money.Money {
 	}
 
 	if units < 0 && nanos > 0 {
-		nanos = -nanos
+		nanos = -(nanosPerUnit - nanos)
+		units++
 	}
 
 	m := &money.Money{

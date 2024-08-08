@@ -77,7 +77,7 @@ var _ = Describe("func Sub()", func() {
 			"negative unit and positive nanos are normalized",
 			&money.Money{CurrencyCode: "XYZ", Units: 1, Nanos: 200000000},
 			&money.Money{CurrencyCode: "XYZ", Units: 2, Nanos: 100000000},
-			&money.Money{CurrencyCode: "XYZ", Units: -1, Nanos: -100000000},
+			&money.Money{CurrencyCode: "XYZ", Units: 0, Nanos: -900000000},
 		),
 	)
 })
