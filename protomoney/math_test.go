@@ -56,16 +56,34 @@ var _ = Describe("func Sub()", func() {
 			Expect(Sub(a, b)).To(Equal(x))
 		},
 		Entry(
-			"negative",
+			"negative difference",
 			&money.Money{CurrencyCode: "XYZ", Units: 1, Nanos: 230000000},
 			&money.Money{CurrencyCode: "XYZ", Units: 3, Nanos: 450000000},
 			&money.Money{CurrencyCode: "XYZ", Units: -2, Nanos: -220000000},
 		),
 		Entry(
-			"positive",
+			"positive difference",
 			&money.Money{CurrencyCode: "XYZ", Units: 3, Nanos: 450000000},
 			&money.Money{CurrencyCode: "XYZ", Units: 1, Nanos: 230000000},
 			&money.Money{CurrencyCode: "XYZ", Units: 2, Nanos: 220000000},
+		),
+		Entry(
+			"negative minuend",
+			&money.Money{CurrencyCode: "XYZ", Units: -3, Nanos: -450000000},
+			&money.Money{CurrencyCode: "XYZ", Units: 1, Nanos: 230000000},
+			&money.Money{CurrencyCode: "XYZ", Units: -4, Nanos: -680000000},
+		),
+		Entry(
+			"negative subtrahend",
+			&money.Money{CurrencyCode: "XYZ", Units: 3, Nanos: 450000000},
+			&money.Money{CurrencyCode: "XYZ", Units: -1, Nanos: -230000000},
+			&money.Money{CurrencyCode: "XYZ", Units: 4, Nanos: 680000000},
+		),
+		Entry(
+			"negative operands",
+			&money.Money{CurrencyCode: "XYZ", Units: -3, Nanos: -450000000},
+			&money.Money{CurrencyCode: "XYZ", Units: -1, Nanos: -230000000},
+			&money.Money{CurrencyCode: "XYZ", Units: -2, Nanos: -220000000},
 		),
 		Entry(
 			"positive unit and negative nanos are normalized",
