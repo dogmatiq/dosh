@@ -80,6 +80,14 @@ var _ = Describe("func Sub()", func() {
 			&money.Money{CurrencyCode: "XYZ", Units: 0, Nanos: -900000000},
 		),
 	)
+
+	It("panics if the amounts do not have the same currency", func() {
+		Expect(func() {
+			a := &money.Money{CurrencyCode: "XYZ"}
+			b := &money.Money{CurrencyCode: "ABC"}
+			Sub(a, b)
+		}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
+	})
 })
 
 var _ = Describe("func Sum()", func() {
