@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 [unreleased]: https://github.com/dogmatiq/dosh
 [0.1.0]: https://github.com/dogmatiq/dogma/releases/tag/v0.1.0
 [0.1.1]: https://github.com/dogmatiq/dogma/releases/tag/v0.1.1
+[0.1.2]: https://github.com/dogmatiq/dogma/releases/tag/v0.1.2
 
 <!-- contributors -->
 
