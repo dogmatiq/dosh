@@ -32,7 +32,17 @@ func Normalize(m *money.Money) (*money.Money, error) {
 		return nil, err
 	}
 
-	return normalize(m), nil
+	if isNormalized(m) {
+		return m, nil
+	}
+
+	units, nanos := normalizeComponents(m)
+
+	return &money.Money{
+		CurrencyCode: m.CurrencyCode,
+		Units:        units,
+		Nanos:        nanos,
+	}, nil
 }
 
 // isNormalized returns true if the units and nanos components of m are already
@@ -51,23 +61,12 @@ func normalizeInPlace(m *money.Money) {
 	}
 }
 
-// normalize returns m with normalized units and nanos components, or panics
-// if unable to do so.
-func normalize(m *money.Money) *money.Money {
-	if isNormalized(m) {
-		return m
-	}
-
-	units, nanos := normalizeComponents(m)
-
-	return &money.Money{
-		CurrencyCode: m.CurrencyCode,
-		Units:        units,
-		Nanos:        nanos,
-	}
-}
-
+// normalizeComponents returns the normalized units and nanos components of m.
 func normalizeComponents(m *money.Money) (int64, int32) {
+	if isNormalized(m) {
+		return m.Units, m.Nanos
+	}
+
 	units := m.Units + (int64(m.Nanos) / nanosPerUnit)
 	nanos := m.Nanos % nanosPerUnit
 	return units, nanos

@@ -31,18 +31,18 @@ func IsNegative(m *money.Money) bool {
 func Cmp(a, b *money.Money) (c int) {
 	assertSameCurrency(a, b)
 
-	a = normalize(a)
-	b = normalize(b)
+	unitsA, nanosA := normalizeComponents(a)
+	unitsB, nanosB := normalizeComponents(b)
 
-	if a.Units < b.Units {
+	if unitsA < unitsB {
 		return -1
 	}
 
-	if a.Units > b.Units {
+	if unitsA > unitsB {
 		return +1
 	}
 
-	return int(a.Nanos - b.Nanos)
+	return int(nanosA - nanosB)
 }
 
 // EqualTo returns true if a and b have the same magnitude.
