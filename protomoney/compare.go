@@ -45,7 +45,7 @@ func Cmp(a, b *money.Money) (c int) {
 	return int(a.Nanos - b.Nanos)
 }
 
-// Equal returns true if a and b have the same magnitude.
+// EqualTo returns true if a and b have the same magnitude.
 //
 // It panics if a and b do not use the same currency.
 //
@@ -55,7 +55,7 @@ func EqualTo(a, b *money.Money) bool {
 	return Cmp(a, b) == 0
 }
 
-// Identical returns true if a and b use the same currency and have the same
+// IdenticalTo returns true if a and b use the same currency and have the same
 // magnitude.
 //
 // For general comparisons that are expected to be in the same currency, use
