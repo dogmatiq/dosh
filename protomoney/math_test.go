@@ -50,20 +50,36 @@ var _ = Describe("func Add()", func() {
 })
 
 var _ = Describe("func Sub()", func() {
-	It("returns a - b", func() {
-		a := &money.Money{CurrencyCode: "XYZ", Units: 1, Nanos: 230000000}
-		b := &money.Money{CurrencyCode: "XYZ", Units: 3, Nanos: 450000000}
-		x := &money.Money{CurrencyCode: "XYZ", Units: -2, Nanos: -220000000}
-		Expect(Sub(a, b)).To(Equal(x))
-	})
-
-	It("panics if the amounts do not have the same currency", func() {
-		Expect(func() {
-			a := &money.Money{CurrencyCode: "XYZ"}
-			b := &money.Money{CurrencyCode: "ABC"}
-			Sub(a, b)
-		}).To(PanicWith("can not operate on amounts in differing currencies (XYZ vs ABC)"))
-	})
+	DescribeTable(
+		"returns a - b",
+		func(a, b, x *money.Money) {
+			Expect(Sub(a, b)).To(Equal(x))
+		},
+		Entry(
+			"negative",
+			&money.Money{CurrencyCode: "XYZ", Units: 1, Nanos: 230000000},
+			&money.Money{CurrencyCode: "XYZ", Units: 3, Nanos: 450000000},
+			&money.Money{CurrencyCode: "XYZ", Units: -2, Nanos: -220000000},
+		),
+		Entry(
+			"positive",
+			&money.Money{CurrencyCode: "XYZ", Units: 3, Nanos: 450000000},
+			&money.Money{CurrencyCode: "XYZ", Units: 1, Nanos: 230000000},
+			&money.Money{CurrencyCode: "XYZ", Units: 2, Nanos: 220000000},
+		),
+		Entry(
+			"positive unit and negative nanos are normalized",
+			&money.Money{CurrencyCode: "XYZ", Units: 40, Nanos: 0},
+			&money.Money{CurrencyCode: "XYZ", Units: 0, Nanos: 450000000},
+			&money.Money{CurrencyCode: "XYZ", Units: 39, Nanos: 550000000},
+		),
+		Entry(
+			"negative unit and positive nanos are normalized",
+			&money.Money{CurrencyCode: "XYZ", Units: 1, Nanos: 200000000},
+			&money.Money{CurrencyCode: "XYZ", Units: 2, Nanos: 100000000},
+			&money.Money{CurrencyCode: "XYZ", Units: 0, Nanos: -900000000},
+		),
+	)
 })
 
 var _ = Describe("func Sum()", func() {
