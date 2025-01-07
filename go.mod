@@ -1,7 +1,8 @@
 module github.com/dogmatiq/dosh
 
-go 1.22
-toolchain go1.22.5
+go 1.22.0
+
+toolchain go1.23.4
 
 require (
 	github.com/jmalloc/gomegax v0.0.0-20200507221434-64fca4c0e03a
