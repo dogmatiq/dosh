@@ -10,7 +10,7 @@ require (
 	github.com/onsi/gomega v1.38.2
 	github.com/shopspring/decimal v1.4.0
 	google.golang.org/genproto v0.0.0-20210608205507-b6d2f5bf0d7d
-	google.golang.org/protobuf v1.36.9
+	google.golang.org/protobuf v1.36.10
 )
 
 require (
